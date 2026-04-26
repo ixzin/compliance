@@ -680,6 +680,7 @@ h1 {
 
 .form-card {
     padding: 30px;
+    scroll-margin-top: 110px;
     border-radius: 8px;
     background: #34401b;
 }

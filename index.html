@@ -227,7 +227,7 @@
         </section>
 
         <section class="section section-dark" id="contacts">
-            <div class="container contact-layout" id="consultation">
+            <div class="container contact-layout">
                 <div>
                     <span class="eyebrow">Контакти</span>
                     <div class="section-head">
@@ -276,7 +276,7 @@
                     </div>
                 </div>
 
-                <form id="postForm" class="form-card" action="#" method="post" data-crm-form="lead">
+                <form id="consultation" class="form-card" action="#" method="post" data-crm-form="lead">
                     <input id="honeypot" type="text" name="honeypot" style="display:none">
                     <label for="fullName">Ім'я Прізвище *</label>
                     <input id="fullName" name="fullName" type="text" placeholder="Ваше ім'я та прізвище" autocomplete="name" required>
@@ -311,7 +311,7 @@
                     publicKey: "mFvqP963x7YHd5VhG",
                 });
 
-                    const form = document.getElementById("postForm");
+                    const form = document.getElementById("consultation");
                     const formStatus = document.getElementById("formStatus");
                     const submitButton = form.querySelector('button[type="submit"]');
 
