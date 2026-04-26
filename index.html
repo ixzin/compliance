@@ -315,8 +315,14 @@
                         return;
                     }
 
+                        if (localStorage.getItem('alreadySent')) {
+                            console.warn("Already send");
+                            return;
+                        }
+
                     emailjs.sendForm("service_as118is", "template_u9ld1p7", this).then(() => {
                         console.log("Відправлено!");
+                        localStorage.setItem('alreadySent', 'true');
                     }).catch((error) => {
                         console.error("EmailJS error:", error);
                 });
