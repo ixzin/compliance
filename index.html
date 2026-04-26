@@ -7,7 +7,6 @@
     <title>Комплаєнс Партнери - бухгалтерський, кадровий та військовий облік</title>
     <meta name="description" content="Комплаєнс Партнери забезпечують прозорість обліку та відповідність бізнес-процесів законодавчим нормам для ТОВ та ФОП." />
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
 </head>
 
 <body>
@@ -299,8 +298,11 @@
             <p>© 2026 Комплаєнс Партнери. Бухгалтерський, кадровий та військовий облік</p>
         </div>
     </footer>
+        <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
         <script>
-        emailjs.init("mFvqP963x7YHd5VhG");
+                emailjs.init({
+                    publicKey: "mFvqP963x7YHd5VhG",
+                });
 
         document.getElementById("postForm").addEventListener("submit", (e) => {
             e.preventDefault();
@@ -315,7 +317,7 @@
                 return;
             }
 
-            emailjs.send("service_as118is", "template_u9ld1p7", {
+            emailjs.sendForm("service_as118is", "template_u9ld1p7", {
                 company,
                 email,
                 fullName,
@@ -323,8 +325,9 @@
                 phone
             }).then(() => {
                 console.log("Відправлено!");
-            }, (error) => {
-                console.error(error);
+            }).catch((error) => {
+                console.error("EmailJS error:", error);
+                alert("Помилка відправки");
             });
         });
     </script>
