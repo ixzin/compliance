@@ -304,33 +304,24 @@
                     publicKey: "mFvqP963x7YHd5VhG",
                 });
 
-        document.getElementById("postForm").addEventListener("submit", (e) => {
-            e.preventDefault();
+                    document.getElementById("postForm").addEventListener("submit", function (e) {
+                        e.preventDefault();
 
-            const formData = new FormData(e.currentTarget);
-            const { company, email, fullName, message, honeypot, phone } = Object.fromEntries(formData);
+                    const formData = new FormData(e.currentTarget);
+                    const { company, email, fullName, message, honeypot, phone } = Object.fromEntries(formData);
 
-            console.log(company, email, fullName, message, phone);
+                    if (honeypot) {
+                        console.warn("Bot protection");
+                        return;
+                    }
 
-            if (honeypot) {
-                console.warn("Bot protection");
-                return;
-            }
-
-            emailjs.sendForm("service_as118is", "template_u9ld1p7", {
-                company,
-                email,
-                fullName,
-                message,
-                phone
-            }).then(() => {
-                console.log("Відправлено!");
-            }).catch((error) => {
-                console.error("EmailJS error:", error);
-                alert("Помилка відправки");
-            });
-        });
-    </script>
+                    emailjs.sendForm("service_as118is", "template_u9ld1p7", this).then(() => {
+                        console.log("Відправлено!");
+                    }).catch((error) => {
+                        console.error("EmailJS error:", error);
+                });
+                });
+                    </script>
 </body>
 
 </html>
