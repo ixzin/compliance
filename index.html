@@ -288,6 +288,7 @@
                     <textarea id="message" name="message" placeholder="Коротко опишіть вашу ситуацію" required></textarea>
 
                     <button class="btn btn-primary" type="submit">Відправити</button>
+                    <div id="formStatus" class="form-status" role="status" aria-live="polite" hidden></div>
                 </form>
             </div>
         </section>
@@ -304,7 +305,31 @@
                     publicKey: "mFvqP963x7YHd5VhG",
                 });
 
-                    document.getElementById("postForm").addEventListener("submit", function (e) {
+                    const form = document.getElementById("postForm");
+                    const formStatus = document.getElementById("formStatus");
+                    const submitButton = form.querySelector('button[type="submit"]');
+
+                    function showFormStatus(type, title, text) {
+                        formStatus.className = `form-status form-status-${type}`;
+                        formStatus.innerHTML = `<strong>${title}</strong><span>${text}</span>`;
+                        formStatus.hidden = false;
+                    }
+
+                    function markFormAsSent() {
+                        submitButton.disabled = true;
+                        submitButton.textContent = "Вже відправлено";
+                    }
+
+                    if (localStorage.getItem('alreadySent')) {
+                        markFormAsSent();
+                        showFormStatus(
+                            "warning",
+                            "Заявку вже надіслано",
+                            "Ми отримали ваше повідомлення. Повторна відправка з цього пристрою недоступна."
+                        );
+                    }
+
+                    form.addEventListener("submit", function (e) {
                         e.preventDefault();
 
                     const formData = new FormData(e.currentTarget);
@@ -317,14 +342,36 @@
 
                         if (localStorage.getItem('alreadySent')) {
                             console.warn("Already send");
+                            markFormAsSent();
+                            showFormStatus(
+                                "warning",
+                                "Заявку вже надіслано",
+                                "Ми отримали ваше повідомлення. Повторна відправка з цього пристрою недоступна."
+                            );
                             return;
                         }
+
+                    submitButton.disabled = true;
+                    submitButton.textContent = "Відправляємо...";
 
                     emailjs.sendForm("service_as118is", "template_u9ld1p7", this).then(() => {
                         console.log("Відправлено!");
                         localStorage.setItem('alreadySent', 'true');
+                        markFormAsSent();
+                        showFormStatus(
+                            "success",
+                            "Дякуємо, заявку відправлено",
+                            "Ми зв'яжемося з вами найближчим часом."
+                        );
                     }).catch((error) => {
                         console.error("EmailJS error:", error);
+                        submitButton.disabled = false;
+                        submitButton.textContent = "Відправити";
+                        showFormStatus(
+                            "error",
+                            "Не вдалося відправити",
+                            "Будь ласка, спробуйте ще раз або напишіть нам напряму."
+                        );
                 });
                 });
                     </script>
